@@ -26,21 +26,22 @@ passport.use(
           return cb(
             null,
             false,
-            req.flash("error_messages", "帳號或密碼輸入錯誤！")
+            req.flash("error_messages", "帳號或密碼輸入錯誤")
           );
+        user = user.toJSON();
         return cb(null, user);
       });
     }
   )
 );
 
-// serialize and deserialize user
+// serialize and deserialize user. 只存id不存物件以便省空間
 passport.serializeUser((user, cb) => {
   cb(null, user.id);
 });
 passport.deserializeUser((id, cb) => {
   User.findByPk(id).then((user) => {
-    user = user.toJSON(); // 此處與影片示範不同
+    user = user.toJSON();
     return cb(null, user);
   });
 });
