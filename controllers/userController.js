@@ -1,25 +1,35 @@
-const bcrypt = require("bcrypt-nodejs");
-const db = require("../models");
-const User = db.User;
+const bcrypt = require('bcrypt-nodejs')
+const db = require('../models')
+const User = db.User
 
-let userController = {
+const userController = {
   signUpPage: (req, res) => {
-    return res.render("signup");
+    return res.render('signup')
   },
 
   signUp: (req, res) => {
-    User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: bcrypt.hashSync(
-        req.body.password,
-        bcrypt.genSaltSync(10),
-        null
-      ),
-    }).then((user) => {
-      return res.redirect("/signin");
-    });
-  },
-};
+    const { name, email, password, passwordCheck } = req.body
+    if (password !== passwordCheck) {
+      req.flash('error_messages', '兩次密碼輸入不同')
+      return res.redirect('/signup')
+    } else {
+      User.findOne({ where: { email } }).then((user) => {
+        if (user) {
+          req.flash('error_messages', '信箱已經註冊過')
+          return res.redirect('/signup')
+        } else {
+          User.create({
+            name,
+            email,
+            password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
+          }).then((user) => {
+            req.flash('success_messages', '成功註冊帳號')
+            return res.redirect('/signin')
+          })
+        }
+      })
+    }
+  }
+}
 
-module.exports = userController;
+module.exports = userController
