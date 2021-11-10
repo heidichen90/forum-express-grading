@@ -75,4 +75,9 @@ module.exports = (app) => {
     authenticatedAdmin,
     adminController.putRestaurant
   );
+  app.delete(
+    "/admin/restaurants/:id",
+    authenticatedAdmin,
+    adminController.deleteRestaurant
+  );
 };

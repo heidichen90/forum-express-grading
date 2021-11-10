@@ -54,7 +54,6 @@ const adminController = {
       return res.redirect("back");
     }
     return Restaurant.findByPk(req.params.id).then((restaurant) => {
-      console.log(restaurant);
       restaurant
         .update({
           name: req.body.name,
@@ -70,6 +69,14 @@ const adminController = {
           );
           res.redirect("/admin/restaurants");
         });
+    });
+  },
+
+  deleteRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id).then((restaurant) => {
+      restaurant.destroy().then((restaurant) => {
+        res.redirect("/admin/restaurants");
+      });
     });
   },
 };
