@@ -1,31 +1,53 @@
-const restControllers = require("../controllers/restController");
-const adminController = require("../controllers/adminController");
-const userController = require("../controllers/userController");
-const passport = require("passport");
+const restControllers = require('../controllers/restController')
+const adminController = require('../controllers/adminController')
+const userController = require('../controllers/userController')
+const passport = require('passport')
 
 module.exports = (app) => {
+  const authenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next()
+    }
+    res.redirect('/singin')
+  }
+
+  const authenticatedAdmin = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      console.log(req.user)
+      if (req.user.isAdmin) {
+        return next()
+      }
+      return res.redirect('/')
+    }
+    res.redirect('/signin')
+  }
+
   // 如果使用者訪問首頁，就導向 /restaurants 的頁面
-  app.get("/", (req, res) => {
-    res.redirect("restaurants");
-  });
-  app.get("/restaurants", restControllers.getRestaurants);
+  app.get('/', authenticated, (req, res) => {
+    res.redirect('restaurants')
+  })
+  app.get('/restaurants', restControllers.getRestaurants)
 
-  app.get("/admin", (req, res) => {
-    res.redirect("/admin/restaurants");
-  });
-  app.get("/admin/restaurants", adminController.getRestaurants);
+  app.get('/admin', authenticatedAdmin, (req, res) => {
+    res.redirect('/admin/restaurants')
+  })
+  app.get(
+    '/admin/restaurants',
+    authenticatedAdmin,
+    adminController.getRestaurants
+  )
 
-  app.get("/signup", userController.signUpPage);
-  app.post("/signup", userController.signUp);
+  app.get('/signup', userController.signUpPage)
+  app.post('/signup', userController.signUp)
 
-  app.get("/signin", userController.signInPage);
+  app.get('/signin', userController.signInPage)
   app.post(
-    "/signin",
-    passport.authenticate("local", {
-      failureRedirect: "/signin",
-      failureFlash: true,
+    '/signin',
+    passport.authenticate('local', {
+      failureRedirect: '/signin',
+      failureFlash: true
     }),
     userController.signIn
-  );
-  app.get("logout", userController.logout);
-};
+  )
+  app.get('logout', userController.logout)
+}

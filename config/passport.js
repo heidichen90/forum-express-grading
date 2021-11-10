@@ -1,49 +1,51 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const bcrypt = require("bcryptjs");
-const db = require("../models");
-const User = db.User;
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const bcrypt = require('bcryptjs')
+const db = require('../models')
+const User = db.User
 
 // setup passport strategy
 passport.use(
   new LocalStrategy(
     // customize user field
     {
-      usernameField: "email",
-      passwordField: "password",
-      passReqToCallback: true,
+      usernameField: 'email',
+      passwordField: 'password',
+      passReqToCallback: true
     },
     // authenticate user
     (req, username, password, cb) => {
       User.findOne({ where: { email: username } }).then((user) => {
-        if (!user)
+        if (!user) {
           return cb(
             null,
             false,
-            req.flash("error_messages", "帳號或密碼輸入錯誤")
-          );
-        if (!bcrypt.compareSync(password, user.password))
+            req.flash('error_messages', '帳號或密碼輸入錯誤')
+          )
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
           return cb(
             null,
             false,
-            req.flash("error_messages", "帳號或密碼輸入錯誤")
-          );
-        user = user.toJSON();
-        return cb(null, user);
-      });
+            req.flash('error_messages', '帳號或密碼輸入錯誤')
+          )
+        }
+        user = user.toJSON()
+        return cb(null, user)
+      })
     }
   )
-);
+)
 
 // serialize and deserialize user. 只存id不存物件以便省空間
 passport.serializeUser((user, cb) => {
-  cb(null, user.id);
-});
+  cb(null, user.id)
+})
 passport.deserializeUser((id, cb) => {
   User.findByPk(id).then((user) => {
-    user = user.toJSON();
-    return cb(null, user);
-  });
-});
+    user = user.toJSON()
+    return cb(null, user)
+  })
+})
 
-module.exports = passport;
+module.exports = passport
