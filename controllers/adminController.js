@@ -34,10 +34,43 @@ const adminController = {
     return Restaurant.findByPk(req.params.id, { raw: true, nest: true }).then(
       (restaurant) => {
         return res.render("admin/restaurant", {
-          restaurant: restaurant,
+          restaurant,
         });
       }
     );
+  },
+
+  editRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id, { raw: true, nest: true }).then(
+      (restaurant) => {
+        return res.render("admin/create", { restaurant });
+      }
+    );
+  },
+
+  putRestaurant: (req, res) => {
+    if (!req.body.name) {
+      req.flash("error_message", "name didnt exit");
+      return res.redirect("back");
+    }
+    return Restaurant.findByPk(req.params.id).then((restaurant) => {
+      console.log(restaurant);
+      restaurant
+        .update({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+        })
+        .then((restaurant) => {
+          req.flash(
+            "success_messages",
+            "restaurant was successfully to update"
+          );
+          res.redirect("/admin/restaurants");
+        });
+    });
   },
 };
 
