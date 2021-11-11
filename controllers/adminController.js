@@ -26,6 +26,7 @@ const adminController = {
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID);
       imgur.upload(file.path, (err, img) => {
+        console.log("here");
         if (err) console.log("Error: ", err);
         return Restaurant.create({
           name,

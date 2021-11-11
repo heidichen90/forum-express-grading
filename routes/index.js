@@ -2,6 +2,7 @@ const restControllers = require("../controllers/restController");
 const adminController = require("../controllers/adminController");
 const userController = require("../controllers/userController");
 const passport = require("passport");
+const helpers = require("../_helpers");
 
 //multer setup
 const multer = require("multer");
@@ -9,16 +10,15 @@ const upload = multer({ dest: "temp/" });
 
 module.exports = (app) => {
   const authenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated()) {
       return next();
     }
     res.redirect("/signin");
   };
 
   const authenticatedAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      console.log(req.user);
-      if (req.user.isAdmin) {
+    if (helpers.ensureAuthenticated()) {
+      if (helpse.getUser(req).isAdmin) {
         return next();
       }
       return res.redirect("/");

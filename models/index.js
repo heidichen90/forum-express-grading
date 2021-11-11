@@ -20,7 +20,6 @@ if (config.use_env_variable) {
   );
 }
 
-// 動態引入其他 models
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
@@ -28,11 +27,13 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
-    const model = sequelize["import"](path.join(__dirname, file));
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
     db[model.name] = model;
   });
 
-// 設定 Models 之間的關聯
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
