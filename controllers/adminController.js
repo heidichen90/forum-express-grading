@@ -142,10 +142,10 @@ const adminController = {
 
   toggleAdmin: (req, res) => {
     return User.findByPk(req.params.id).then((user) => {
-      const { isAdmin } = user.toJSON();
-      if (isAdmin) {
+      const { isAdmin, email } = user.toJSON();
+      if (email === "root@example.com") {
         req.flash("error_messages", "禁止變更管理者權限");
-        res.redirect("back");
+        return res.redirect("back");
       } else {
         user.update({ isAdmin: !isAdmin }).then((user) => {
           req.flash("success_messages", "使用者權限變更成功");
