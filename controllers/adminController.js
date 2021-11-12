@@ -135,7 +135,6 @@ const adminController = {
   },
 
   getUsers: (req, res) => {
-    console.log("i am in get users");
     return User.findAll({ raw: true, nest: true }).then((users) => {
       return res.render("admin/users", { users });
     });
