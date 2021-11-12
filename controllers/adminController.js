@@ -1,7 +1,7 @@
 const db = require("../models");
 const Restaurant = db.Restaurant;
-const fs = require("fs");
-//imgur setup
+const User = db.User;
+// imgur setup
 const imgur = require("imgur-node-api");
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
 
@@ -26,7 +26,6 @@ const adminController = {
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID);
       imgur.upload(file.path, (err, img) => {
-        console.log("here");
         if (err) console.log("Error: ", err);
         return Restaurant.create({
           name,
@@ -132,6 +131,28 @@ const adminController = {
       restaurant.destroy().then((restaurant) => {
         res.redirect("/admin/restaurants");
       });
+    });
+  },
+
+  getUsers: (req, res) => {
+    console.log("i am in get users");
+    return User.findAll({ raw: true, nest: true }).then((users) => {
+      return res.render("admin/users", { users });
+    });
+  },
+
+  toggleAdmin: (req, res) => {
+    return User.findByPk(req.params.id).then((user) => {
+      const { isAdmin } = user.toJSON();
+      if (isAdmin) {
+        req.flash("error_messages", "禁止變更管理者權限");
+        res.redirect("back");
+      } else {
+        user.update({ isAdmin: !isAdmin }).then((user) => {
+          req.flash("success_messages", "使用者權限變更成功");
+          res.redirect("/admin/users");
+        });
+      }
     });
   },
 };
