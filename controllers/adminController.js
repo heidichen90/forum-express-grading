@@ -18,7 +18,9 @@ const adminController = {
   },
 
   createRestaurants: (req, res) => {
-    return res.render("admin/create");
+    Category.findAll({ raw: true, nest: true }).then((categories) => {
+      return res.render("admin/create", { categories });
+    });
   },
 
   postRestaurants: (req, res) => {
@@ -26,7 +28,8 @@ const adminController = {
       req.flash("error_messages", "name didn't exist");
       return res.redirect("back");
     }
-    const { name, tel, address, opening_hours, description } = req.body;
+    const { name, tel, address, opening_hours, description, categoryId } =
+      req.body;
     const { file } = req;
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID);
@@ -39,6 +42,7 @@ const adminController = {
           opening_hours,
           description,
           image: file ? img.data.link : null,
+          categoryId,
         }).then((restaurant) => {
           req.flash("success_messages", "restaurant was successfully created");
           return res.redirect("/admin/restaurants");
@@ -70,11 +74,13 @@ const adminController = {
   },
 
   editRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, { raw: true, nest: true }).then(
-      (restaurant) => {
-        return res.render("admin/create", { restaurant });
-      }
-    );
+    Category.findAll({ raw: true, nest: true }).then((categories) => {
+      return Restaurant.findByPk(req.params.id, { raw: true, nest: true }).then(
+        (restaurant) => {
+          return res.render("admin/create", { restaurant, categories });
+        }
+      );
+    });
   },
 
   putRestaurant: (req, res) => {
@@ -85,7 +91,8 @@ const adminController = {
     }
 
     const { file } = req;
-    const { name, tel, address, opening_hours, description } = req.body;
+    const { name, tel, address, opening_hours, description, categoryId } =
+      req.body;
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID);
       imgur.upload(file.path, (err, img) => {
@@ -99,6 +106,7 @@ const adminController = {
               opening_hours,
               description,
               image: file ? img.data.link : restaurant.image,
+              categoryId,
             })
             .then((restaurant) => {
               req.flash(
