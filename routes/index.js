@@ -113,4 +113,9 @@ module.exports = (app) => {
     authenticatedAdmin,
     categoryController.putCategory
   );
+  app.delete(
+    "/admin/categories/:id",
+    authenticatedAdmin,
+    categoryController.deletCategory
+  );
 };
