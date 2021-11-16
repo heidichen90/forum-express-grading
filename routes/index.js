@@ -98,4 +98,9 @@ module.exports = (app) => {
     authenticatedAdmin,
     categoryController.getCategories
   );
+  app.put(
+    "/admin/categories",
+    authenticatedAdmin,
+    categoryController.postCategory
+  );
 };
