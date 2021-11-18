@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Restaurant extends Model {
     /**
@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      Restaurant.belongsTo(models.Category);
-      Restaurant.hasMany(models.Comment);
+    static associate (models) {
+      Restaurant.belongsTo(models.Category)
+      Restaurant.hasMany(models.Comment)
     }
   }
   Restaurant.init(
@@ -19,12 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       opening_hours: DataTypes.STRING,
       description: DataTypes.TEXT,
-      image: DataTypes.STRING,
+      image: DataTypes.STRING
     },
     {
       sequelize,
-      modelName: "Restaurant",
+      modelName: 'Restaurant'
     }
-  );
-  return Restaurant;
-};
+  )
+  return Restaurant
+}
