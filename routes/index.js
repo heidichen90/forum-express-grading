@@ -122,4 +122,12 @@ module.exports = (app) => {
   app.get('/restaurants/:id', restController.getRestaurant)
   app.post('/comments', authenticated, commentController.postComment)
   app.delete('/comments/:id', authenticated, commentController.deleteComment)
+  app.get('/users/:id', authenticated, userController.getUser)
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  app.put(
+    '/users/:id',
+    authenticated,
+    upload.single('image'),
+    userController.putUser
+  )
 }

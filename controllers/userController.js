@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt-nodejs')
 const db = require('../models')
 const User = db.User
+// imgur setup
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const userController = {
   signUpPage: (req, res) => {
@@ -44,6 +47,55 @@ const userController = {
     req.flash('success_message', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+  getUser: (req, res) => {
+    return User.findByPk(req.params.id).then((user) => {
+      return res.render('profile', { user: user.toJSON() })
+    })
+  },
+  editUser: (req, res) => {
+    return User.findByPk(req.params.id).then((user) => {
+      return res.render('edit', { user: user.toJSON() })
+    })
+  },
+  putUser: (req, res) => {
+    const { name, email } = req.body
+    const { file } = req
+
+    if (!name || !email || !file) {
+      req.flash('error_message', 'You havent put in any value')
+    }
+
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        if (err) console.log('Error: ', err)
+        return User.findByPk(req.params.id).then((user) => {
+          user
+            .update({
+              name,
+              email,
+              image: file ? img.data.link : user.image
+            })
+            .then((user) => {
+              req.flash('success_messages', '使用者資料編輯成功')
+              return res.redirect(`/users/${req.params.id}`)
+            })
+        })
+      })
+    } else {
+      return User.findByPk(req.params.id).then((user) => {
+        user
+          .update({
+            name,
+            email
+          })
+          .then((user) => {
+            req.flash('success_messages', '使用者資料編輯成功')
+            return res.redirect(`/users/${req.params.id}`)
+          })
+      })
+    }
   }
 }
 
