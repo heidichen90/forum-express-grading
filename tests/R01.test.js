@@ -14,7 +14,7 @@ describe('# R01', () => {
   describe('登入測試: POST /signin', function () {
     // 以下測試會發出請求，測試資料庫內是否有作業指定的使用者資料
     // 測試資料的來源是真實的資料庫
-    it('#1 密碼錯誤', function (done) {
+    it('#1 密碼錯誤', function (done) { 
       request(app)
         // 對 POST /signin 發出請求，參數是錯誤的密碼
         .post('/signin')
