@@ -92,17 +92,6 @@ const restControllers = {
       console.log("Error: ", error);
     }
   },
-
-  getDashBoard: async (req, res) => {
-    const restaurantId = req.params.id;
-    const restaurant = await Restaurant.findByPk(restaurantId, {
-      include: [Category, { model: Comment }],
-    });
-    const comment = await Comment.findAndCountAll({
-      where: { RestaurantId: restaurantId },
-    });
-    return res.render("dashboard", { restaurant: restaurant.toJSON() });
-  },
 };
 
 module.exports = restControllers;
