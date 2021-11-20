@@ -42,7 +42,7 @@ const restControllers = {
         categoryName: r.dataValues.Category.name,
         isFavorited: req.user.FavoritedRestaurants.map(
           (restaurant) => restaurant.id
-        ).includes(r.id), //narrow down from all favorited restaurants to current restaurant
+        ).includes(r.id), // narrow down from all favorited restaurants to current restaurant
       }));
       Category.findAll({ raw: true, nest: true }).then((categories) => {
         return res.render("restaurants", {
@@ -108,9 +108,6 @@ const restControllers = {
     const restaurantId = req.params.id;
     const restaurant = await Restaurant.findByPk(restaurantId, {
       include: [Category, { model: Comment }],
-    });
-    const comment = await Comment.findAndCountAll({
-      where: { RestaurantId: restaurantId },
     });
     return res.render("dashboard", { restaurant: restaurant.toJSON() });
   },

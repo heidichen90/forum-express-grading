@@ -7,7 +7,6 @@ const Favorite = db.Favorite;
 const helpers = require("../_helpers");
 // imgur setup
 const imgur = require("imgur-node-api");
-const restaurant = require("../models/restaurant");
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
 
 const userController = {
