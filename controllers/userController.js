@@ -3,6 +3,7 @@ const db = require("../models");
 const User = db.User;
 const Restaurant = db.Restaurant;
 const Comment = db.Comment;
+const helpers = require("../_helpers");
 // imgur setup
 const imgur = require("imgur-node-api");
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
@@ -70,10 +71,8 @@ const userController = {
     }
   },
   editUser: (req, res) => {
-    const { user: loginUser } = req;
-
     // can only edit your own profile
-    if (loginUser.id !== Number(req.params.id)) {
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
       req.flash(
         "error_messages",
         "無法更改其他使用者資料，只可以瀏覽其他使用者資料"
@@ -87,13 +86,13 @@ const userController = {
   },
   putUser: (req, res) => {
     const { name, email } = req.body;
-    const { file, user: loginUser } = req;
+    const { file } = req;
 
-    if (loginUser.id !== Number(req.params.id)) {
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
       req.flash("error_messages", "無法更改其他使用者資料，請重新編輯你的資料");
       return res.redirect("back");
     }
-    if (!name || !email || !file) {
+    if (!name || !email) {
       req.flash("error_messages", "使用者資料沒有變更");
       return res.redirect("back");
     }
