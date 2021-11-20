@@ -1,38 +1,20 @@
-<<<<<<< HEAD
-const chai = require('chai')
-const request = require('supertest')
-const sinon = require('sinon')
-const should = chai.should()
-
-const helpers = require('../_helpers')
-=======
 const chai = require("chai");
 const request = require("supertest");
 const sinon = require("sinon");
 const should = chai.should();
 
 const helpers = require("../_helpers");
->>>>>>> main
 
 const {
   createModelMock,
   createControllerProxy,
   mockRequest,
-<<<<<<< HEAD
-  mockResponse
-} = require('../helpers/unitTestHelpers')
-
-describe('# R02', () => {
-  describe('# R02: 建立 User Profile', function () {
-    context('# [瀏覽 Profile]', () => {
-=======
   mockResponse,
 } = require("../helpers/unitTestHelpers");
 
 describe("# R02", () => {
   describe("# R02: 建立 User Profile", function () {
     context("# [瀏覽 Profile]", () => {
->>>>>>> main
       // 前置準備
       before(() => {
         // 模擬登入驗證
@@ -51,17 +33,10 @@ describe("# R02", () => {
 
         // 修改 userController 中的資料庫連線設定，由連向真實的資料庫 -> 改為連向模擬的 User table
         this.userController = createControllerProxy(
-<<<<<<< HEAD
-          '../controllers/userController',
-          { User: this.UserMock }
-        )
-      })
-=======
           "../controllers/userController",
           { User: this.UserMock }
         );
       });
->>>>>>> main
 
       // 開始測試
       it(" GET /users/:id ", async () => {
@@ -106,17 +81,10 @@ describe("# R02", () => {
 
         // 連向模擬的 User table
         this.userController = createControllerProxy(
-<<<<<<< HEAD
-          '../controllers/userController',
-          { User: this.UserMock }
-        )
-      })
-=======
           "../controllers/userController",
           { User: this.UserMock }
         );
       });
->>>>>>> main
 
       it(" GET /users/:id/edit ", async () => {
         // 模擬 request & response
@@ -149,21 +117,6 @@ describe("# R02", () => {
         this.getUser = sinon.stub(helpers, "getUser").returns({ id: 1 });
         // 製作假資料
         // 本 context 會用這筆資料進行測試
-<<<<<<< HEAD
-        this.UserMock = createModelMock('User', {
-          id: 1,
-          email: 'root@example.com',
-          name: 'admin',
-          isAdmin: false
-        })
-
-        // 連向模擬的 User table
-        this.userController = createControllerProxy(
-          '../controllers/userController',
-          { User: this.UserMock }
-        )
-      })
-=======
         this.UserMock = createModelMock("User", {
           id: 1,
           email: "root@example.com",
@@ -177,7 +130,6 @@ describe("# R02", () => {
           { User: this.UserMock }
         );
       });
->>>>>>> main
 
       it(" PUT /users/:id ", async () => {
         // 模擬 request & response
@@ -193,13 +145,8 @@ describe("# R02", () => {
 
         // putUser 正確執行的話，應呼叫 req.flash
         // req.flash 的參數應與下列字串一致
-<<<<<<< HEAD
-        req.flash.calledWith('success_messages', '使用者資料編輯成功').should.be
-          .true
-=======
         req.flash.calledWith("success_messages", "使用者資料編輯成功").should.be
           .true;
->>>>>>> main
         // putUser 執行完畢後，應呼叫 res.redirect 並重新導向 /users/1
         res.redirect.calledWith("/users/1").should.be.true;
         // putUser 執行完畢後，id:1 使用者的 name 和 email 應該已被修改
