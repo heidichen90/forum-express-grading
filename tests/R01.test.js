@@ -61,10 +61,14 @@ describe('# R01', () => {
       })
 
       // 修改 adminController 中的資料庫連線設定，由連向真實的資料庫 -> 改為連向模擬的 User table
+<<<<<<< HEAD
       this.adminController = createControllerProxy(
         '../controllers/adminController',
         { User: this.UserMock }
       )
+=======
+      this.adminController = createControllerProxy('../controllers/adminController', { User: this.UserMock })
+>>>>>>> origin/R04-test
     })
 
     // 開始測試
@@ -96,10 +100,14 @@ describe('# R01', () => {
         })
 
         // 將 adminController 中的 User db 取代成 User mock db
+<<<<<<< HEAD
         this.adminController = createControllerProxy(
           '../controllers/adminController',
           { User: this.UserMock }
         )
+=======
+        this.adminController = createControllerProxy('../controllers/adminController', { User: this.UserMock })
+>>>>>>> origin/R04-test
       })
 
       it(' PUT /admin/users/:id/toggleAdmin ', async () => {
@@ -131,10 +139,14 @@ describe('# R01', () => {
           isAdmin: false // 非管理者
         })
         // 將 adminController 中的 User db 取代成 User mock db
+<<<<<<< HEAD
         this.adminController = createControllerProxy(
           '../controllers/adminController',
           { User: this.UserMock }
         )
+=======
+        this.adminController = createControllerProxy('../controllers/adminController', { User: this.UserMock })
+>>>>>>> origin/R04-test
       })
 
       it(' PUT /admin/users/:id/toggleAdmin ', async () => {
