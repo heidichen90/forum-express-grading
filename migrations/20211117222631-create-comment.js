@@ -12,10 +12,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       UserId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'Users', key: 'id' }
       },
       RestaurantId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'Restaurants', key: 'id' }
       },
       createdAt: {
         allowNull: false,

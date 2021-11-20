@@ -84,7 +84,6 @@ const adminController = {
   },
 
   putRestaurant: (req, res) => {
-    console.warn('put restaurant', req.file)
     if (!req.body.name) {
       req.flash('error_message', 'name didnt exit')
       return res.redirect('back')

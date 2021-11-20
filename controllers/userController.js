@@ -3,6 +3,7 @@ const db = require('../models')
 const User = db.User
 const Restaurant = db.Restaurant
 const Comment = db.Comment
+const helpers = require('../_helpers')
 // imgur setup
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -65,11 +66,20 @@ const userController = {
       })
 
       return res.render('profile', { user: user, comments: comments })
-    } catch (eror) {
+    } catch (error) {
       console.log(error)
     }
   },
   editUser: (req, res) => {
+    // can only edit your own profile
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
+      req.flash(
+        'error_messages',
+        '無法更改其他使用者資料，只可以瀏覽其他使用者資料'
+      )
+      return res.redirect(`/users/${req.params.id}`)
+    }
+
     return User.findByPk(req.params.id).then((user) => {
       return res.render('edit', { user: user.toJSON() })
     })
@@ -78,8 +88,13 @@ const userController = {
     const { name, email } = req.body
     const { file } = req
 
-    if (!name || !email || !file) {
-      req.flash('error_message', 'You havent put in any value')
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
+      req.flash('error_messages', '無法更改其他使用者資料，請重新編輯你的資料')
+      return res.redirect('back')
+    }
+    if (!name || !email) {
+      req.flash('error_messages', '使用者資料沒有變更')
+      return res.redirect('back')
     }
 
     if (file) {

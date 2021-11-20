@@ -1,6 +1,9 @@
 'use strict'
 const bcrypt = require('bcryptjs')
+<<<<<<< HEAD
 const { query } = require('express')
+=======
+>>>>>>> main
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Users', [
