@@ -33,7 +33,7 @@ module.exports = (app) => {
   app.get("/", authenticated, (req, res) => {
     res.redirect("restaurants");
   });
-  app.get("/restaurants", restController.getRestaurants);
+  app.get("/restaurants", authenticated, restController.getRestaurants);
 
   app.get("/admin", authenticatedAdmin, (req, res) => {
     res.redirect("/admin/restaurants");
