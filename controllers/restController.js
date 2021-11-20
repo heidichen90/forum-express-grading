@@ -1,3 +1,34 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@heidichen90 
+heidichen90
+/
+forum-express-grading
+Public
+forked from ALPHACamp/forum-express-grading
+0
+045
+Code
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+forum-express-grading/controllers/restController.js /
+@heidichen90
+heidichen90 merge with R02 and correct styling
+Latest commit ece32bf 1 hour ago
+ History
+ 1 contributor
+100 lines (87 sloc)  2.37 KB
+   
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
@@ -66,49 +97,23 @@ const restControllers = {
   },
 
   getFeeds: async (req, res) => {
-<<<<<<< HEAD
-    return Promise.all([
-      Restaurant.findAll({
-=======
-    // get restaurant
 
     try {
       const restaurants = await Restaurant.findAll({
->>>>>>> main
         limit: 10,
         raw: true,
         nest: true,
         order: [['createdAt', 'DESC']],
         include: [Category]
-<<<<<<< HEAD
-      }),
-      Comment.findAll({
-=======
       })
 
       const comments = await Comment.findAll({
->>>>>>> main
         limit: 10,
         raw: true,
         nest: true,
         order: [['createdAt', 'DESC']],
         include: [User, Restaurant]
       })
-<<<<<<< HEAD
-    ]).then(([restaurants, comments]) => {
-      return res.render('feeds', {
-        restaurants: restaurants,
-        comments: comments
-      })
-    })
-  },
-
-  getDashBoard: (req, res) => {
-    return res.render('dashboard', { restaurant })
-  }
-}
-
-=======
 
       return res.render('feeds', {
         restaurants,
@@ -117,10 +122,8 @@ const restControllers = {
     } catch (error) {
       console.log('Error: ', error)
     }
+  },
 
-    // get restaurnat comment
-  }
 }
 
->>>>>>> main
 module.exports = restControllers
