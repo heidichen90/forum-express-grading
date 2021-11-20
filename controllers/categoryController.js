@@ -26,7 +26,7 @@ const categoryController = {
       return res.redirect('back')
     } else {
       return Category.create({ name: req.body.name }).then((category) => {
-        re.redirect('/admin/categories')
+        res.redirect('/admin/categories')
       })
     }
   },
