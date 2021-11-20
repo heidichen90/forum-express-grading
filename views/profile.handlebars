@@ -17,7 +17,9 @@
       <h5 class="card-title">{{user.name}}</h5>
       <p class="card-text">{{user.email}}</p>
       <p class="card-text">{{#count comments}}{{/count}} 已評論餐廳</p>
-      <a href="/users/{{user.id}}/edit" class="btn btn-primary">edit</a>
+      {{#if user.isEditable}}
+        <a href="/users/{{user.id}}/edit" class="btn btn-primary">edit</a>
+      {{/if}}
     </div>
   </div>
 </div>
