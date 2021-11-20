@@ -4,7 +4,7 @@ const sinon = require('sinon')
 const should = chai.should()
 
 const helpers = require('../_helpers')
-const { createModelMock, createControllerProxy, mockRequest, mockResponse } = require('../helpers/unitTestHelpers');
+const { createModelMock, createControllerProxy, mockRequest, mockResponse } = require('../helpers/unitTestHelpers')
 
 describe('# R03: 餐廳資訊整理：Dashboard', function () {
   context('# [Q1: Dashboard - 1 - controller / view / route]', () => {
@@ -15,7 +15,7 @@ describe('# R03: 餐廳資訊整理：Dashboard', function () {
         id: 1,
         email: 'root@example.com',
         name: 'admin',
-        isAdmin: false,
+        isAdmin: false
       })
       this.RestaurantMock = createModelMock('Restaurant', {
         id: 1,
@@ -28,15 +28,15 @@ describe('# R03: 餐廳資訊整理：Dashboard', function () {
       })
       this.CommentMock = createModelMock('Comment', {
         id: 1,
-        text: "gogogo"
+        text: 'gogogo'
       })
 
       // 連向模擬的 tables
-      this.restController = createControllerProxy('../controllers/restController', { 
-        User: this.UserMock, 
-        Category: this.CategoryMock, 
+      this.restController = createControllerProxy('../controllers/restController', {
+        User: this.UserMock,
+        Category: this.CategoryMock,
         Restaurant: this.RestaurantMock,
-        Comment: this.CommentMock,
+        Comment: this.CommentMock
       })
     })
 

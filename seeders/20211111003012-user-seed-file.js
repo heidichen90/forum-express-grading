@@ -1,40 +1,40 @@
-"use strict";
-const bcrypt = require("bcryptjs");
-const { query } = require("express");
+'use strict'
+const bcrypt = require('bcryptjs')
+const { query } = require('express')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert("Users", [
+    await queryInterface.bulkInsert('Users', [
       {
         id: 1,
-        email: "root@example.com",
-        password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
+        email: 'root@example.com',
+        password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
         isAdmin: true,
-        name: "root",
+        name: 'root',
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 2,
-        email: "user1@example.com",
-        password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
+        email: 'user1@example.com',
+        password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
         isAdmin: false,
-        name: "user1",
+        name: 'user1',
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 3,
-        email: "user2@example.com",
-        password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
+        email: 'user2@example.com',
+        password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
         isAdmin: false,
-        name: "user2",
+        name: 'user2',
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
+        updatedAt: new Date()
+      }
+    ])
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("Users", null, {});
-  },
-};
+    await queryInterface.bulkDelete('Users', null, {})
+  }
+}
