@@ -8,7 +8,10 @@ const helpers = require('../_helpers')
 // multer setup
 const multer = require('multer')
 const categoryController = require('../controllers/categoryController')
+<<<<<<< HEAD
 const restControllers = require('../controllers/restController')
+=======
+>>>>>>> parent of a49b72c... add dashboard view to show comment
 const upload = multer({ dest: 'temp/' })
 
 module.exports = (app) => {
@@ -132,9 +135,12 @@ module.exports = (app) => {
     upload.single('image'),
     userController.putUser
   )
+<<<<<<< HEAD
   app.get(
     '/restaurants/:id/dashboard',
     authenticated,
     restControllers.getDashBoard
   )
+=======
+>>>>>>> parent of a49b72c... add dashboard view to show comment
 }

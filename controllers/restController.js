@@ -91,6 +91,7 @@ const restControllers = {
       console.log('Error: ', error)
     }
   },
+<<<<<<< HEAD
 
   getDashBoard: async (req, res) => {
     const restaurantId = req.params.id
@@ -111,5 +112,8 @@ const restControllers = {
     })
   }
 }
+=======
+};
+>>>>>>> parent of a49b72c... add dashboard view to show comment
 
 module.exports = restControllers
