@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const chai = require("chai");
 const request = require("supertest");
 const sinon = require("sinon");
@@ -16,20 +15,6 @@ const {
 describe("# R02", () => {
   describe("# R02: 建立 User Profile", function () {
     context("# [瀏覽 Profile]", () => {
-=======
-const chai = require('chai')
-const request = require('supertest')
-const sinon = require('sinon')
-const should = chai.should()
-
-const helpers = require('../_helpers');
-
-const { createModelMock, createControllerProxy, mockRequest, mockResponse } = require('../helpers/unitTestHelpers');
-
-describe('# R02', () => {
-  describe('# R02: 建立 User Profile', function () {
-    context('# [瀏覽 Profile]', () => {
->>>>>>> origin/R05-test
       // 前置準備
       before(() => {
         // 模擬登入驗證
@@ -47,16 +32,11 @@ describe('# R02', () => {
         });
 
         // 修改 userController 中的資料庫連線設定，由連向真實的資料庫 -> 改為連向模擬的 User table
-<<<<<<< HEAD
         this.userController = createControllerProxy(
           "../controllers/userController",
           { User: this.UserMock }
         );
       });
-=======
-        this.userController = createControllerProxy('../controllers/userController', { User: this.UserMock })
-      })
->>>>>>> origin/R05-test
 
       // 開始測試
       it(" GET /users/:id ", async () => {
@@ -100,16 +80,11 @@ describe('# R02', () => {
         });
 
         // 連向模擬的 User table
-<<<<<<< HEAD
         this.userController = createControllerProxy(
           "../controllers/userController",
           { User: this.UserMock }
         );
       });
-=======
-        this.userController = createControllerProxy('../controllers/userController', { User: this.UserMock })
-      })
->>>>>>> origin/R05-test
 
       it(" GET /users/:id/edit ", async () => {
         // 模擬 request & response
@@ -150,16 +125,11 @@ describe('# R02', () => {
         });
 
         // 連向模擬的 User table
-<<<<<<< HEAD
         this.userController = createControllerProxy(
           "../controllers/userController",
           { User: this.UserMock }
         );
       });
-=======
-        this.userController = createControllerProxy('../controllers/userController', { User: this.UserMock })
-      })
->>>>>>> origin/R05-test
 
       it(" PUT /users/:id ", async () => {
         // 模擬 request & response

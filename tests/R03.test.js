@@ -3,7 +3,6 @@ const request = require("supertest");
 const sinon = require("sinon");
 const should = chai.should();
 
-<<<<<<< HEAD
 const helpers = require("../_helpers");
 const {
   createModelMock,
@@ -14,13 +13,6 @@ const {
 
 describe("# R03: 餐廳資訊整理：Dashboard", function () {
   context("# [Q1: Dashboard - 1 - controller / view / route]", () => {
-=======
-const helpers = require('../_helpers')
-const { createModelMock, createControllerProxy, mockRequest, mockResponse } = require('../helpers/unitTestHelpers');
-
-describe('# R03: 餐廳資訊整理：Dashboard', function () {
-  context('# [Q1: Dashboard - 1 - controller / view / route]', () => {
->>>>>>> origin/R05-test
     before(async () => {
       // 製作假資料
       // 本 context 會用這筆資料進行測試

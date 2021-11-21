@@ -3,7 +3,6 @@ const request = require("supertest");
 const sinon = require("sinon");
 const should = chai.should();
 
-<<<<<<< HEAD
 const db = require("../models");
 const helpers = require("../_helpers");
 const {
@@ -12,11 +11,6 @@ const {
   mockRequest,
   mockResponse,
 } = require("../helpers/unitTestHelpers");
-=======
-const db = require('../models')
-const helpers = require('../_helpers')
-const { createModelMock, createControllerProxy, mockRequest, mockResponse } = require('../helpers/unitTestHelpers')
->>>>>>> origin/R05-test
 
 // 建立模擬的 Like 資料
 let mockLikeData = [
