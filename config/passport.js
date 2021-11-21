@@ -1,18 +1,18 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const bcrypt = require("bcryptjs");
-const db = require("../models");
-const User = db.User;
-const Restaurant = db.Restaurant;
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const bcrypt = require('bcryptjs')
+const db = require('../models')
+const User = db.User
+const Restaurant = db.Restaurant
 
 // setup passport strategy
 passport.use(
   new LocalStrategy(
     // customize user field
     {
-      usernameField: "email",
-      passwordField: "password",
-      passReqToCallback: true,
+      usernameField: 'email',
+      passwordField: 'password',
+      passReqToCallback: true
     },
     // authenticate user
     (req, username, password, cb) => {
@@ -21,39 +21,39 @@ passport.use(
           return cb(
             null,
             false,
-            req.flash("error_messages", "帳號或密碼輸入錯誤")
-          );
+            req.flash('error_messages', '帳號或密碼輸入錯誤')
+          )
         }
         if (!bcrypt.compareSync(password, user.password)) {
           return cb(
             null,
             false,
-            req.flash("error_messages", "帳號或密碼輸入錯誤")
-          );
+            req.flash('error_messages', '帳號或密碼輸入錯誤')
+          )
         }
-        user = user.toJSON();
-        return cb(null, user);
-      });
+        user = user.toJSON()
+        return cb(null, user)
+      })
     }
   )
-);
+)
 
 // serialize and deserialize user. 只存id不存物件以便省空間
 passport.serializeUser((user, cb) => {
-  cb(null, user.id);
-});
+  cb(null, user.id)
+})
 passport.deserializeUser((id, cb) => {
   User.findByPk(id, {
     include: [
-      { model: Restaurant, as: "FavoritedRestaurants" },
-      { model: Restaurant, as: "LikedRestaurants" },
-      { model: User, as: "Followers" },
-      { model: User, as: "Followings" },
-    ],
+      { model: Restaurant, as: 'FavoritedRestaurants' },
+      { model: Restaurant, as: 'LikedRestaurants' },
+      { model: User, as: 'Followers' },
+      { model: User, as: 'Followings' }
+    ]
   }).then((user) => {
-    user = user.toJSON();
-    return cb(null, user);
-  });
-});
+    user = user.toJSON()
+    return cb(null, user)
+  })
+})
 
-module.exports = passport;
+module.exports = passport
