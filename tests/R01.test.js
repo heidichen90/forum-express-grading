@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const chai = require("chai");
 const request = require("supertest");
 const should = chai.should();
@@ -12,6 +13,17 @@ const {
 
 describe("# R01", () => {
   describe("登入測試: POST /signin", function () {
+=======
+const chai = require('chai')
+const request = require('supertest')
+const should = chai.should()
+
+const app = require('../app')
+const { createModelMock, createControllerProxy, mockRequest, mockResponse } = require('../helpers/unitTestHelpers');
+
+describe('# R01', () => {
+  describe('登入測試: POST /signin', function(){
+>>>>>>> origin/R05-test
     // 以下測試會發出請求，測試資料庫內是否有作業指定的使用者資料
     // 測試資料的來源是真實的資料庫
     it("#1 密碼錯誤", function (done) {
@@ -61,12 +73,18 @@ describe("# R01", () => {
       });
 
       // 修改 adminController 中的資料庫連線設定，由連向真實的資料庫 -> 改為連向模擬的 User table
+<<<<<<< HEAD
       this.adminController = createControllerProxy(
         "../controllers/adminController",
         { User: this.UserMock }
       );
     });
 
+=======
+      this.adminController = createControllerProxy('../controllers/adminController', { User: this.UserMock })
+    })
+    
+>>>>>>> origin/R05-test
     // 開始測試
     context("# [顯示使用者清單]", () => {
       it(" GET /admin/users ", async () => {
@@ -96,11 +114,16 @@ describe("# R01", () => {
         });
 
         // 將 adminController 中的 User db 取代成 User mock db
+<<<<<<< HEAD
         this.adminController = createControllerProxy(
           "../controllers/adminController",
           { User: this.UserMock }
         );
       });
+=======
+        this.adminController = createControllerProxy('../controllers/adminController', { User: this.UserMock })
+      })
+>>>>>>> origin/R05-test
 
       it(" PUT /admin/users/:id/toggleAdmin ", async () => {
         // 模擬 request & response
@@ -131,6 +154,7 @@ describe("# R01", () => {
           isAdmin: false, // 非管理者
         });
         // 將 adminController 中的 User db 取代成 User mock db
+<<<<<<< HEAD
         this.adminController = createControllerProxy(
           "../controllers/adminController",
           { User: this.UserMock }
@@ -138,6 +162,12 @@ describe("# R01", () => {
       });
 
       it(" PUT /admin/users/:id/toggleAdmin ", async () => {
+=======
+        this.adminController = createControllerProxy('../controllers/adminController', { User: this.UserMock })
+      })
+
+      it(' PUT /admin/users/:id/toggleAdmin ', async () => {
+>>>>>>> origin/R05-test
         // 模擬 request & response
         const req = mockRequest({ params: { id: 1 } }); // 帶入 params.id = 1，對 PUT /admin/users/1/toggleAdmin 發出請求
         const res = mockResponse();
@@ -154,9 +184,18 @@ describe("# R01", () => {
 
         // toggleAmin 執行完畢後，假資料中 id:1 使用者的應該要是 isAdmin：true
         // 將假資料撈出，比對確認有成功修改到
+<<<<<<< HEAD
         const user = await this.UserMock.findOne({ where: { id: 1 } });
         user.isAdmin.should.equal(true);
       });
     });
   });
 });
+=======
+        const user = await this.UserMock.findOne({ where: { id: 1 } })
+        user.isAdmin.should.equal(true)
+      })
+    })
+  })
+})
+>>>>>>> origin/R05-test
