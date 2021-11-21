@@ -13,11 +13,21 @@
 <h1>美食達人</h1>
 <hr />
 <div class="row" style="text-align: center;">
-  {{log users}}
   {{#each users}}
+    {{log this.isFollowed}}
     <div class="col-3">
       <a href="/users/{{this.id}}">
-        <img class="" src="{{this.image}}" width="140px" height="140px" />
+        {{#if this.image}}
+          <img
+            class="card-img-top"
+            style="object-fit: cover;width: 300px;height: 300px"
+            src={{this.image}}
+          />
+        {{else}}
+          <div style="height:50%;display:flex;width:100%;color: black">
+            <i class="fas fa-camera-retro fa-5x m-auto"></i>
+          </div>
+        {{/if}}
       </a>
       <h2>{{this.name}}</h2>
       <span

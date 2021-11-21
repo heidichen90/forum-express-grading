@@ -150,4 +150,10 @@ module.exports = (app) => {
   )
   app.post('/like/:restaurantId', authenticated, userController.addLike)
   app.delete('/like/:restaurantId', authenticated, userController.removeLike)
+  app.post('/following/:userId', authenticated, userController.addFollowing)
+  app.delete(
+    '/following/:userId',
+    authenticated,
+    userController.removeFollowing
+  )
 }

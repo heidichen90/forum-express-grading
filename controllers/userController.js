@@ -5,13 +5,14 @@ const Restaurant = db.Restaurant
 const Comment = db.Comment
 const Favorite = db.Favorite
 const Like = db.Like
+const Followship = db.Followship
 const helpers = require('../_helpers')
 // imgur setup
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const userController = {
-  signUpPage: (req, res) => {
+  signUpPage: (_req, res) => {
     return res.render('signup')
   },
 
@@ -30,7 +31,7 @@ const userController = {
             name,
             email,
             password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
-          }).then((user) => {
+          }).then((_user) => {
             req.flash('success_messages', '成功註冊帳號')
             return res.redirect('/signin')
           })
@@ -39,7 +40,7 @@ const userController = {
     }
   },
 
-  signInPage: (req, res) => {
+  signInPage: (_req, res) => {
     return res.render('signin')
   },
 
@@ -117,7 +118,7 @@ const userController = {
               email,
               image: file ? img.data.link : user.image
             })
-            .then((user) => {
+            .then((_user) => {
               req.flash('success_messages', '使用者資料編輯成功')
               return res.redirect(`/users/${req.params.id}`)
             })
@@ -130,7 +131,7 @@ const userController = {
             name,
             email
           })
-          .then((user) => {
+          .then((_user) => {
             req.flash('success_messages', '使用者資料編輯成功')
             return res.redirect(`/users/${req.params.id}`)
           })
@@ -141,7 +142,7 @@ const userController = {
     return Favorite.create({
       UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
-    }).then((resaurant) => {
+    }).then((_restaurant) => {
       return res.redirect('back')
     })
   },
@@ -153,7 +154,7 @@ const userController = {
       }
     }).then((favorite) => {
       if (favorite) {
-        favorite.destroy().then((restaurant) => {
+        favorite.destroy().then((_restaurant) => {
           return res.redirect('back')
         })
       }
@@ -163,7 +164,7 @@ const userController = {
     return Like.create({
       UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
-    }).then((resaurant) => {
+    }).then((_restaurant) => {
       return res.redirect('back')
     })
   },
@@ -173,7 +174,7 @@ const userController = {
         UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
-    }).then((d) => {
+    }).then((_d) => {
       return res.redirect('back')
     })
   },
@@ -184,10 +185,35 @@ const userController = {
       users = users.map((user) => ({
         ...user.dataValues,
         FollowerCount: user.Followers.length,
-        isFollowed: req.user.Followings.map((d) => d.id).includes(user.id)
+        isFollowed: helpers
+          .getUser(req)
+          .Followings.filter((following) => following.id === user.id).length
       }))
       users = users.sort((a, z) => z.FollowerCount - a.FollowerCount)
       return res.render('topUser', { users })
+    })
+  },
+
+  addFollowing: (req, res) => {
+    console.log(req.user.Id, req.params.userId)
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.userId
+    }).then((followship) => {
+      return res.redirect('back')
+    })
+  },
+
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    }).then((followship) => {
+      followship.destroy().then((followship) => {
+        return res.redirect('back')
+      })
     })
   }
 }
