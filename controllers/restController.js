@@ -1,8 +1,11 @@
+const { helpers } = require('faker')
+const { sequelize } = require('../models')
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
 const User = db.User
 const Comment = db.Comment
+const tools = require('../_helpers')
 
 const pageLimit = 10
 
@@ -119,6 +122,31 @@ const restControllers = {
       include: [Category, { model: Comment }]
     })
     return res.render('dashboard', { restaurant: restaurant.toJSON() })
+  },
+
+  getTopRestaurant: async (req, res) => {
+    let restaurants = await Restaurant.findAll({
+      include: [{ model: User, as: 'FavoritedUsers' }]
+    })
+
+    restaurants = restaurants.map((restaurant) => ({
+      ...restaurant.dataValues,
+      description: restaurant.dataValues.description.substring(0, 50),
+      favoritedCount: restaurant.dataValues.FavoritedUsers.length,
+      isFavorited: tools
+        .getUser(req)
+        .FavoritedRestaurants.filter(
+          (data) => data.id === restaurant.dataValues.id
+        )
+    }))
+
+    restaurants = restaurants
+      .sort((a, z) => z.favoritedCount - a.favoritedCount)
+      .slice(0, 10)
+
+    return res.render('topRestaurants', {
+      restaurants
+    })
   }
 }
 

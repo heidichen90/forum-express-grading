@@ -46,6 +46,7 @@ const createModelMock = (name, defaultValue, data, joinedTableName) => {
         restaurant[joinedTableName] = restaurant[joinedTableName].filter(
           (d) => !(d.UserId === UserId)
         )
+
         return Promise.resolve(data.map((d) => mockModel.build(d)))
       }
     })
