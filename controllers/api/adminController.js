@@ -11,6 +11,11 @@ const adminController = {
       return res.json(data);
     });
   },
+  getRestaurant: (req, res) => {
+    return adminServices.getRestaurant(req, res, (data) => {
+      return res.json(data);
+    });
+  },
 };
 
 module.exports = adminController;
